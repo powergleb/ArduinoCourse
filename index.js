@@ -3,17 +3,6 @@ const { TOKEN } = require('./items/secret');
 
 const bot = new TelegramBot(TOKEN, { polling: true });
 
-var question = {
-    title: 'Сколько параметров можно передать функции ?',
-    buttons: [
-        [{ text: 'Ровно столько, сколько указано в определении функции.', callback_data: '1' }],
-        [{ text: 'Сколько указано в определении функции или меньше.', callback_data: '2' }],
-        [{ text: 'Сколько указано в определении функции или больше.', callback_data: '3' }],
-        [{ text: 'Любое количество.', callback_data: '4' }]
-    ],
-    right_answer: 4
-}
-
 const {Menu} = require('./items/main_menu');
 
 var users = [];
@@ -298,8 +287,6 @@ bot.on('callback_query', (msg) => {
 
     var message_data = msg.data;
     var data_parts = message_data.split('_');
-
-    bot.sendMessage(user_id, message_data);
     
     if(data_parts.length < 1) 
     {
