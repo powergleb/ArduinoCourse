@@ -91,12 +91,12 @@ function SetCurrentLesson(user, lesson_id)
 {
     if(lesson_id < 0)
     {
-        bot.sendMessage(user.id, 'Incorrect lesson id.');
+        bot.sendMessage(user.id, 'Некорректный id урока.');
     }
 
     if (lesson_id > user.actual_lesson)
     {
-        bot.sendMessage(user.id, 'This lesson is not yet available to you.');
+        bot.sendMessage(user.id, 'Этот урок пока что не доступен Вам.');
         return;
     }
     else 
@@ -128,7 +128,7 @@ function SendLessonMenu(user, lesson_id)
     for(var i = 0; i <= user.current_lesson_actual_theory && i < user.current_lesson.Theory.length; i++)
     {
         var button = {
-            text: 'Theory: ' + user.current_lesson.Theory[i].Title, 
+            text: 'Теория: ' + user.current_lesson.Theory[i].Title, 
             callback_data: theory_callback_base + i 
         }
 
@@ -140,7 +140,7 @@ function SendLessonMenu(user, lesson_id)
     for(var i = 0; i <= user.current_lesson_actual_test && i < user.current_lesson.Tests.length; i++)
     {
         var button = {
-            text: 'Question: ' + user.current_lesson.Tests[i].Title, 
+            text: 'Вопрос: ' + user.current_lesson.Tests[i].Title, 
             callback_data: test_callback_base + i 
         }
 
@@ -148,7 +148,7 @@ function SendLessonMenu(user, lesson_id)
     }
     
     buttons.push([{
-        text: 'Back', 
+        text: 'Назад', 
         callback_data: Prefixes.ToMenu
     }]);
 
@@ -185,7 +185,7 @@ function SendTheory(user, lesson_id, part)
     }
 
     var next_button = {
-        text: 'Next', 
+        text: 'Далее', 
         callback_data: null, 
     }
 
@@ -201,12 +201,12 @@ function SendTheory(user, lesson_id, part)
     var options = ButtonsToOptions([
         [next_button],
         [{
-            text: 'Back', 
+            text: 'Назад', 
             callback_data: Prefixes.LessonAtMenu + '_' + lesson_id 
         }],
     ]);
 
-    setTimeout(() => bot.sendMessage(user.id, 'Next:', options), timeout * user.timeout++);
+    setTimeout(() => bot.sendMessage(user.id, 'Далее:', options), timeout * user.timeout++);
 }
 
 function SendTest(user, lesson_id, part)
@@ -235,24 +235,24 @@ function SendTest(user, lesson_id, part)
     }
     
     buttons.push([{
-        text: 'Back', 
+        text: 'Назад', 
         callback_data: Prefixes.LessonAtMenu + '_' + lesson_id 
     }]);
 
     var options = ButtonsToOptions(buttons);
 
-    setTimeout(() => bot.sendMessage(user.id, 'Answer:', options), timeout * user.timeout++);
+    setTimeout(() => bot.sendMessage(user.id, 'Ответ:', options), timeout * user.timeout++);
 }
 
 function SendTestAnswer(user, lesson_id, part, answer)
 {
     if(user.current_lesson.Tests[part].Answer != answer)
     {
-        bot.sendMessage(user.id, 'Not true!');
+        bot.sendMessage(user.id, 'Не верно!');
         return;
     }
 
-    setTimeout(() => bot.sendMessage(user.id, 'Right!'), timeout * user.timeout++);
+    setTimeout(() => bot.sendMessage(user.id, 'Верно!'), timeout * user.timeout++);
 
     if(part + 1 < user.current_lesson.Tests.length)
     {
@@ -270,7 +270,12 @@ function SendTestAnswer(user, lesson_id, part, answer)
     if(user.actual_lesson + 1 == Menu.Lessons.length)
     {
         setTimeout(() => bot.sendMessage(user.id, 
-            'You have completed the entire course! My congratulations!'), timeout * user.timeout++);
+            'Вы завершили этот курс! Мои поздравления!'), timeout * user.timeout++);
+        setTimeout(() => bot.sendMessage(user.id, 
+            'Курс подготовили учащиеся СГУ КНиИТ: \n' + 
+            'Разработка: Петров Алексей \n' + 
+            'Уроки: Роках Глеб.'), 
+            timeout * user.timeout++);
         SendMainMenu(user);
         return;
     }
@@ -289,7 +294,7 @@ bot.on('callback_query', (msg) => {
     var user = GetUser(user_id);
     if(user == null)
     {
-        bot.sendMessage(user_id, 'You are not registered! Use \'/start\' message.');
+        bot.sendMessage(user_id, 'Вы не зарегистрированы! Используйте комманду \'/start\'.');
         return;
     }
 
@@ -300,7 +305,7 @@ bot.on('callback_query', (msg) => {
     
     if(data_parts.length < 1) 
     {
-        bot.sendMessage(user_id, 'Incorrect callback.');
+        bot.sendMessage(user_id, 'Некорректный callback.');
         return;
     }
 
@@ -313,7 +318,7 @@ bot.on('callback_query', (msg) => {
     {
         if(data_parts.length < 2)
         {
-            bot.sendMessage(user_id, 'Incorrect callback.');
+            bot.sendMessage(user_id, 'Некорректный callback.');
             return;
         }
 
@@ -329,7 +334,7 @@ bot.on('callback_query', (msg) => {
         {
             if(data_parts.length < 3)
             {
-                bot.sendMessage(user_id, 'Incorrect callback.');
+                bot.sendMessage(user_id, 'Некорректный callback.');
                 return;
             }
             
@@ -349,7 +354,7 @@ bot.on('callback_query', (msg) => {
             {
                 if(data_parts.length < 4)
                 {
-                    bot.sendMessage(user_id, 'Incorrect callback.');
+                    bot.sendMessage(user_id, 'Некорректный callback.');
                     return;
                 }
                 var answer = data_parts[3] - 0;
@@ -359,5 +364,5 @@ bot.on('callback_query', (msg) => {
         }        
     }
 
-    bot.sendMessage(user_id, 'Incorrect callback.')
+    bot.sendMessage(user_id, 'Некорректный callback.')
 });
