@@ -1,6 +1,7 @@
 module.exports = {
     Lesson:
     {
+        Title: "test_lesson",
         Theory: [
             {
                 Title: "info1",
