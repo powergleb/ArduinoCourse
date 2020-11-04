@@ -5,6 +5,8 @@ const bot = new TelegramBot(TOKEN, { polling: true });
 
 const {Menu} = require('./items/main_menu');
 
+const timeout = 500;
+
 var users = [];
 
 const Prefixes = {
@@ -38,6 +40,7 @@ function CreateUser(id)
         current_lesson: null,
         current_lesson_actual_theory: -1,
         current_lesson_actual_test: -1,
+        timeout: 0
     }
 
     users[users.length] = user;
@@ -70,7 +73,7 @@ function SendMainMenu(user)
 
     var options = ButtonsToOptions(buttons);
 
-    bot.sendMessage(user.id, Menu.Text, options)
+    setTimeout(() => bot.sendMessage(user.id, Menu.Text, options), timeout * user.timeout++);
 }
 
 bot.onText(/\/start/, (msg, match) => {
@@ -151,18 +154,19 @@ function SendLessonMenu(user, lesson_id)
 
     var options = ButtonsToOptions(buttons);
 
-    bot.sendMessage(user.id, text, options)
+    setTimeout(() => bot.sendMessage(user.id, text, options), timeout * user.timeout++);
 }
 
 function SendTheory(user, lesson_id, part)
 {
     var theory_item = user.current_lesson.Theory[part];
 
-    bot.sendMessage(user.id, theory_item.Title);
-    bot.sendMessage(user.id, theory_item.Text);
+    setTimeout(() => bot.sendMessage(user.id, theory_item.Title), timeout * user.timeout++);
+    setTimeout(() => bot.sendMessage(user.id, theory_item.Text), timeout * user.timeout++);
     for(var i in theory_item.Pic)
     {
-        bot.sendPhoto(user.id, theory_item.Pic[i]);
+        var t = theory_item.Pic[i];
+        setTimeout(() => bot.sendPhoto(user.id, t), timeout * user.timeout++);
     }
 
     var last_theory_flag = false;
@@ -202,17 +206,20 @@ function SendTheory(user, lesson_id, part)
         }],
     ]);
 
-    bot.sendMessage(user.id, 'Next:', options);
+    setTimeout(() => bot.sendMessage(user.id, 'Next:', options), timeout * user.timeout++);
 }
 
 function SendTest(user, lesson_id, part)
 {
     var test_item = user.current_lesson.Tests[part];
 
-    bot.sendMessage(user.id, test_item.Title + '\n' + test_item.Text);
+    setTimeout(() => bot.sendMessage(user.id, test_item.Title), timeout * user.timeout++);
+    setTimeout(() => bot.sendMessage(user.id, test_item.Text), timeout * user.timeout++);
+
     for(var i in test_item.Pic)
     {
-        bot.sendPhoto(user.id, test_item.Pic[i]);
+        var t = test_item.Pic[i];
+        setTimeout(() => bot.sendPhoto(user.id, t), timeout * user.timeout++);
     }
 
     var answer_base = Prefixes.LessonTestAnswer + '_' + lesson_id + '_' + part + '_';
@@ -234,7 +241,7 @@ function SendTest(user, lesson_id, part)
 
     var options = ButtonsToOptions(buttons);
 
-    bot.sendMessage(user.id, 'Answer:', options);
+    setTimeout(() => bot.sendMessage(user.id, 'Answer:', options), timeout * user.timeout++);
 }
 
 function SendTestAnswer(user, lesson_id, part, answer)
@@ -245,7 +252,7 @@ function SendTestAnswer(user, lesson_id, part, answer)
         return;
     }
 
-    bot.sendMessage(user.id, 'Right!');
+    setTimeout(() => bot.sendMessage(user.id, 'Right!'), timeout * user.timeout++);
 
     if(part + 1 < user.current_lesson.Tests.length)
     {
@@ -262,7 +269,8 @@ function SendTestAnswer(user, lesson_id, part, answer)
 
     if(user.actual_lesson + 1 == Menu.Lessons.length)
     {
-        bot.sendMessage(user.id, 'You have completed the entire course! My congratulations!');
+        setTimeout(() => bot.sendMessage(user.id, 
+            'You have completed the entire course! My congratulations!'), timeout * user.timeout++);
         SendMainMenu(user);
         return;
     }
@@ -284,6 +292,8 @@ bot.on('callback_query', (msg) => {
         bot.sendMessage(user_id, 'You are not registered! Use \'/start\' message.');
         return;
     }
+
+    user.timeout = 0;
 
     var message_data = msg.data;
     var data_parts = message_data.split('_');
