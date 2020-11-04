@@ -3,8 +3,12 @@ module.exports = {
         Text: "Выберите курс:",
         Lessons: [
             {
-                Title: "test_lesson",
-                Path: "./lessons/test_lesson/test_lesson"
+                Title: "test_lesson_1",
+                Path: "./lessons/test_lesson_1/test_lesson"
+            },
+            {
+                Title: "test_lesson_2",
+                Path: "./lessons/test_lesson_2/test_lesson"
             },
         ]
     }

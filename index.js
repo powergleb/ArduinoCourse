@@ -256,15 +256,21 @@ function SendTestAnswer(user, lesson_id, part, answer)
 
     if(part + 1 < user.current_lesson.Tests.length)
     {
+        if(lesson_id == user.actual_lesson)
+        {
+            user.actual_lesson_actual_test++;
+            user.current_lesson_actual_test++;
+        }
+
         SendTest(user, lesson_id, part + 1);
         return;
     }
 
     if(lesson_id != user.actual_lesson)
-    {        
+    {
         SetCurrentLesson(user, lesson_id + 1);
-        SendLessonMenu(user, lesson_id + 1);
-        return;
+        SendLessonMenu(user, lesson_id + 1); 
+        return;   
     }
 
     if(user.actual_lesson + 1 == Menu.Lessons.length)

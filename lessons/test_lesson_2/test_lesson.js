@@ -1,24 +1,24 @@
 module.exports = {
     Lesson:
     {
-        Title: "test_lesson",
+        Title: "test_lesson_22",
         Theory: [
             {
-                Title: "info1",
-                Text: "test_text_1",
+                Title: "info21",
+                Text: "test_text_21",
                 Pic: []
             },
             {
-                Title: "info2",
-                Text: "test_text_2",
-                Pic: ["./lessons/test_lesson/pic/pic1.jpg"]
+                Title: "info22",
+                Text: "test_text_22",
+                Pic: ["./lessons/test_lesson_2/pic/pic1.jpg"]
             },
         ],
         Tests: [
             {
-                Title: "test1",
+                Title: "test21",
                 Pic: [],
-                Text: "test_test_1",
+                Text: "test_test_21",
                 Variants: [
                     "False1",
                     "False2",
@@ -28,9 +28,9 @@ module.exports = {
                 Answer: 2
             },
             {
-                Title: "test2",
-                Pic: ["./lessons/test_lesson/pic/pic1.jpg"],
-                Text: "test_test_2",
+                Title: "test22",
+                Pic: ["./lessons/test_lesson_2/pic/pic1.jpg"],
+                Text: "test_test_22",
                 Variants: [
                     "False1",
                     "False2",
