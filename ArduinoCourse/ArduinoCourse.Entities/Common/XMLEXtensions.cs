@@ -1,6 +1,9 @@
 ﻿using ArduinoCourse.Entities.Lessons;
+using ArduinoCourse.Entities.Menu;
+using Microsoft.VisualBasic.CompilerServices;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Xml.Linq;
 
@@ -147,6 +150,52 @@ namespace ArduinoCourse.Entities.Common
             }
 
             return res;
+        }
+        #endregion
+
+        #region MainMenu
+        public static XElement ToXML(this MainMenu menu)
+        {
+            XElement element = new XElement("Menu");
+
+            foreach(string path in menu.LessonsPaths)
+            {
+                element.Add(new XElement("Lesson", path));
+            }
+
+            return element;
+        }
+
+        public static MainMenu ToMainMenu(this XElement element)
+        {
+            MainMenu res = new MainMenu();
+
+            foreach(var path in element.Elements("Lesson"))
+            {
+                res.LessonsPaths.Add(path.Value);
+            }
+
+            foreach (string path in res.LessonsPaths)
+            {
+                string file = File.ReadAllText(Environment.CurrentDirectory + path);
+                res.LessonsFiles.Add(file);
+            }
+
+            foreach (var file in res.LessonsFiles)
+            {
+                XElement lesson = XElement.Parse(file);
+                res.Lessons.Add(lesson.ToLesson());
+            }
+
+            return res;
+        }
+
+        public static MainMenu ToMainMenu(this string path)
+        {
+            string file = File.ReadAllText(path);
+            XElement element = XElement.Parse(file);
+
+            return element.ToMainMenu();
         }
         #endregion
     }

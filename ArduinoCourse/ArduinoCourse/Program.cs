@@ -1,5 +1,6 @@
 ﻿using ArduinoCourse.Entities.Common;
 using ArduinoCourse.Entities.Lessons;
+using ArduinoCourse.Entities.Menu;
 using System;
 using System.IO;
 using System.Xml.Linq;
@@ -17,19 +18,21 @@ namespace ArduinoCourse
 
         static void Main(string[] args)
         {
-            bot = new TelegramBotClient(token);
+            //bot = new TelegramBotClient(token);
 
-            bot.OnMessage += TestHandler;
-            bot.OnCallbackQuery += HandleCallbackQuery;
-            bot.DeleteWebhookAsync();
+            //bot.OnMessage += TestHandler;
+            //bot.OnCallbackQuery += HandleCallbackQuery;
+            //bot.DeleteWebhookAsync();
 
-            var me = bot.GetMeAsync().Result;
-            Console.Title = me.Username;
-            Console.WriteLine("Start '{0}' listening...", me);
+            //var me = bot.GetMeAsync().Result;
+            //Console.Title = me.Username;
+            //Console.WriteLine("Start '{0}' listening...", me);
 
-            bot.StartReceiving();
-            Console.ReadLine();
-            bot.StopReceiving();
+            //bot.StartReceiving();
+            //Console.ReadLine();
+            //bot.StopReceiving();
+
+            MainMenu menu = (Environment.CurrentDirectory + "\\lessons\\main_menu.xml").ToMainMenu();
 
             Console.WriteLine("\nend.");
         }
