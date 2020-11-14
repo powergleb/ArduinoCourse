@@ -1,6 +1,7 @@
 ﻿using ArduinoCourse.Entities.Common;
 using ArduinoCourse.Entities.Lessons;
 using ArduinoCourse.Entities.Menu;
+using ArduinoCourse.Entities.Users;
 using System;
 using System.IO;
 using System.Xml.Linq;
@@ -13,16 +14,19 @@ namespace ArduinoCourse
 {
     class Program
     {
+        static MainMenu menu;
+        static UserList users;
         static TelegramBotClient bot;
         static string token = System.IO.File.ReadAllText("secret.txt");
 
         static void Main(string[] args)
         {
-            MainMenu menu = (Environment.CurrentDirectory + "\\lessons\\main_menu.xml").ToMainMenu();
+            menu = (Environment.CurrentDirectory + "\\lessons\\main_menu.xml").ToMainMenu();
+            users = (Environment.CurrentDirectory + "\\lessons\\users.xml").ToUserList();
 
             bot = new TelegramBotClient(token);
 
-            bot.OnMessage += TestHandler;
+            bot.OnMessage += MessageHandler;
             bot.OnCallbackQuery += HandleCallbackQuery;
             bot.DeleteWebhookAsync();
 
@@ -37,37 +41,66 @@ namespace ArduinoCourse
             Console.WriteLine("\nend.");
         }
 
-        static async void TestHandler(object sender, MessageEventArgs e)
+        #region Log
+        static void Log(Message msg)
+        {
+            Console.WriteLine($"{DateTime.Now} : {msg.From.FirstName} {msg.From.LastName} ({msg.From.Id}) : {msg.Text}");
+        }
+
+        static void Log(CallbackQuery msg)
+        {
+            Console.WriteLine($"{DateTime.Now} : {msg.From.FirstName} {msg.From.LastName} ({msg.From.Id}) : {msg.Data}");
+        }
+        #endregion
+        
+        static async void MessageHandler(object sender, MessageEventArgs e)
         {
             Message msg = e.Message;
+            long id = msg.From.Id;
+            Log(msg);
+            Entities.Users.User user = users.GetUserById(msg.From.Id);
 
-            Console.WriteLine($"{msg.From.FirstName} {msg.From.LastName} : {msg.Text}");
+            if (msg.Text == "\\start")
+            {
+                if(user == null)
+                {
+                    user = users.CreateUser(id);
 
-            await bot.SendPhotoAsync(msg.Chat.Id, new InputOnlineFile(new FileStream(Environment.CurrentDirectory + "\\lessons\\test_lesson_1\\pic\\pic1.jpg", FileMode.Open)));
+                    await bot.SendTextMessageAsync(id, $"Добро пожаловать, {msg.From.FirstName} {msg.From.LastName}!");
+                }
 
-            await bot.SendTextMessageAsync(msg.Chat.Id, "1");
+                SentMainMenu(user);
 
-            await bot.SendTextMessageAsync(msg.Chat.Id, "2");
+                return;
+            }
 
-            await bot.SendTextMessageAsync(msg.Chat.Id, "3");
+            await bot.SendTextMessageAsync(id, "Используйте команду \\start");
+        }
 
-            await bot.SendTextMessageAsync(msg.Chat.Id, "4");
+        static async void SentMainMenu(Entities.Users.User user)
+        {
+            await bot.SendTextMessageAsync(user.Id, "menu");
 
-            await bot.SendTextMessageAsync(msg.Chat.Id, "5");
+            // TO DO
         }
 
         static async void HandleCallbackQuery(object sender, CallbackQueryEventArgs callbackQueryEventArgs)
         {
-            Message msg = callbackQueryEventArgs.CallbackQuery.Message;
-            
+            CallbackQuery msg = callbackQueryEventArgs.CallbackQuery;
+            long id = msg.From.Id;
+            Log(msg);
 
             //await bot.AnswerCallbackQueryAsync(callbackQueryEventArgs.CallbackQuery.Id, "Received message " + callbackQueryEventArgs.CallbackQuery.Data);
 
             //await bot.EditMessageReplyMarkupAsync(callbackQueryEventArgs.CallbackQuery.Message.Chat.Id, callbackQueryEventArgs.CallbackQuery.Message.MessageId, null);
 
-            Console.WriteLine($"{callbackQueryEventArgs.CallbackQuery.From.FirstName} {callbackQueryEventArgs.CallbackQuery.From.LastName} : {callbackQueryEventArgs.CallbackQuery.Data}");
+            //Console.WriteLine($"{callbackQueryEventArgs.CallbackQuery.From.FirstName} {callbackQueryEventArgs.CallbackQuery.From.LastName} : {callbackQueryEventArgs.CallbackQuery.Data}");
 
-            await bot.SendTextMessageAsync(msg.Chat.Id, callbackQueryEventArgs.CallbackQuery.Data);
+            //await bot.SendPhotoAsync(chat, new InputOnlineFile(new FileStream(Environment.CurrentDirectory + "\\lessons\\test_lesson_1\\pic\\pic1.jpg", FileMode.Open)));
+
+            await bot.SendTextMessageAsync(id, callbackQueryEventArgs.CallbackQuery.Data);
         }
+
+
     }
 }

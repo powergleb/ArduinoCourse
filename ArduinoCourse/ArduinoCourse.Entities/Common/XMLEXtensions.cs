@@ -230,7 +230,7 @@ namespace ArduinoCourse.Entities.Common
         }
         #endregion
 
-        #region Users
+        #region UserList
         public static XElement ToXML(this UserList t)
         {
             XElement element = new XElement("Users");
@@ -253,6 +253,19 @@ namespace ArduinoCourse.Entities.Common
             }
 
             return res;
+        }
+
+        public static UserList ToUserList(this string path)
+        {
+            string file = File.ReadAllText(path);
+            XElement element = XElement.Parse(file);
+
+            return element.ToUserList();
+        }
+
+        public static void ToFile(this UserList list, string path)
+        {
+            File.WriteAllText(path, list.ToXML().ToString());
         }
         #endregion
     }
