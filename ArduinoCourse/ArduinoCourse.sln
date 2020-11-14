@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArduinoCourse", "ArduinoCourse\ArduinoCourse.csproj", "{162314E6-E58B-493A-85A2-B102FBD56C69}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ArduinoCourse.Entities", "ArduinoCourse.Entities\ArduinoCourse.Entities.csproj", "{36AD12B2-C817-465A-B038-106E7681EAE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ArduinoCourse.Entities", "ArduinoCourse.Entities\ArduinoCourse.Entities.csproj", "{36AD12B2-C817-465A-B038-106E7681EAE2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

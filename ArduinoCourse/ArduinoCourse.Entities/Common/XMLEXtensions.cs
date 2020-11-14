@@ -1,5 +1,6 @@
 ﻿using ArduinoCourse.Entities.Lessons;
 using ArduinoCourse.Entities.Menu;
+using ArduinoCourse.Entities.Users;
 using Microsoft.VisualBasic.CompilerServices;
 using System;
 using System.Collections.Generic;
@@ -196,6 +197,62 @@ namespace ArduinoCourse.Entities.Common
             XElement element = XElement.Parse(file);
 
             return element.ToMainMenu();
+        }
+        #endregion
+
+        #region User
+        public static XElement ToXML(this User t)
+        {
+            return new XElement("User",
+                new XElement("Id", t.Id),
+                new XElement("ActualLesson", t.ActualLesson),
+                new XElement("ActualLessonActualTheory", t.ActualLessonActualTheory),
+                new XElement("ActualLessonActualTest", t.ActualLessonActualTest));
+        }
+
+        public static User ToUser(this XElement element)
+        {
+            User res = new User();
+
+            res.Id = long.Parse(element.Element("Id").Value);
+
+            res.ActualLesson = int.Parse(element.Element("ActualLesson").Value);
+
+            res.ActualLessonActualTheory = int.Parse(element.Element("ActualLessonActualTheory").Value);
+
+            res.ActualLessonActualTest = int.Parse(element.Element("ActualLessonActualTest").Value);
+
+            res.CurrentLessonActualTheory = -1;
+
+            res.CurrentLessonActualTest = -1;
+
+            return res;
+        }
+        #endregion
+
+        #region Users
+        public static XElement ToXML(this UserList t)
+        {
+            XElement element = new XElement("Users");
+
+            foreach(var user in t.Users)
+            {
+                element.Add(user.ToXML());
+            }
+
+            return element;
+        }
+
+        public static UserList ToUserList(this XElement element)
+        {
+            UserList res = new UserList();
+
+            foreach(var e in element.Elements("User"))
+            {
+                res.Users.Add(e.ToUser());
+            }
+
+            return res;
         }
         #endregion
     }

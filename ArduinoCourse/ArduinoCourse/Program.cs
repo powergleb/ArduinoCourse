@@ -18,21 +18,21 @@ namespace ArduinoCourse
 
         static void Main(string[] args)
         {
-            //bot = new TelegramBotClient(token);
-
-            //bot.OnMessage += TestHandler;
-            //bot.OnCallbackQuery += HandleCallbackQuery;
-            //bot.DeleteWebhookAsync();
-
-            //var me = bot.GetMeAsync().Result;
-            //Console.Title = me.Username;
-            //Console.WriteLine("Start '{0}' listening...", me);
-
-            //bot.StartReceiving();
-            //Console.ReadLine();
-            //bot.StopReceiving();
-
             MainMenu menu = (Environment.CurrentDirectory + "\\lessons\\main_menu.xml").ToMainMenu();
+
+            bot = new TelegramBotClient(token);
+
+            bot.OnMessage += TestHandler;
+            bot.OnCallbackQuery += HandleCallbackQuery;
+            bot.DeleteWebhookAsync();
+
+            var me = bot.GetMeAsync().Result;
+            Console.Title = me.Username;
+            Console.WriteLine("Start '{0}' listening...", me);
+
+            bot.StartReceiving();
+            Console.ReadLine();
+            bot.StopReceiving();
 
             Console.WriteLine("\nend.");
         }
