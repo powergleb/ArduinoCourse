@@ -24,7 +24,7 @@ namespace ArduinoCourse.Entities.Users
             {
                 Id = id,
                 ActualLesson = 0,
-                ActualLessonActualTheory = -1,
+                ActualLessonActualTheory = 0,
                 ActualLessonActualTest = -1,
                 CurrentLessonActualTheory = -1,
                 CurrentLessonActualTest = -1,

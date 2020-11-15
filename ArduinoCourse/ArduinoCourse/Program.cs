@@ -3,12 +3,14 @@ using ArduinoCourse.Entities.Lessons;
 using ArduinoCourse.Entities.Menu;
 using ArduinoCourse.Entities.Users;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml.Linq;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.InputFiles;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace ArduinoCourse
 {
@@ -52,7 +54,7 @@ namespace ArduinoCourse
             Console.WriteLine($"{DateTime.Now} : {msg.From.FirstName} {msg.From.LastName} ({msg.From.Id}) : {msg.Data}");
         }
         #endregion
-        
+
         static async void MessageHandler(object sender, MessageEventArgs e)
         {
             Message msg = e.Message;
@@ -62,14 +64,14 @@ namespace ArduinoCourse
 
             if (msg.Text == "\\start")
             {
-                if(user == null)
+                if (user == null)
                 {
                     user = users.CreateUser(id);
 
                     await bot.SendTextMessageAsync(id, $"Добро пожаловать, {msg.From.FirstName} {msg.From.LastName}!");
                 }
 
-                SentMainMenu(user);
+                SendMainMenu(user);
 
                 return;
             }
@@ -77,11 +79,29 @@ namespace ArduinoCourse
             await bot.SendTextMessageAsync(id, "Используйте команду \\start");
         }
 
-        static async void SentMainMenu(Entities.Users.User user)
+        static async void SendMainMenu(Entities.Users.User user)
         {
-            await bot.SendTextMessageAsync(user.Id, "menu");
+            string text = "Выберите курс:";
 
-            // TO DO
+            List<InlineKeyboardButton> list = new List<InlineKeyboardButton>();
+
+            for (int i = 0; i <= user.ActualLesson; i++)
+            {
+                Lesson lesson = menu.Lessons[i];
+                InlineKeyboardButton button = new InlineKeyboardButton()
+                {
+                    Text = lesson.Title,
+                    CallbackData = string.Format("lm_{0}", i)
+                };
+                list.Add(button);
+            }
+
+            await bot.SendTextMessageAsync(user.Id, text, replyMarkup: new InlineKeyboardMarkup(list.ToArray()));
+        }
+
+        static async void SendIncorrectCallback(long id)
+        {
+            await bot.SendTextMessageAsync(id, "Некорректный callback.");
         }
 
         static async void HandleCallbackQuery(object sender, CallbackQueryEventArgs callbackQueryEventArgs)
@@ -90,17 +110,193 @@ namespace ArduinoCourse
             long id = msg.From.Id;
             Log(msg);
 
-            //await bot.AnswerCallbackQueryAsync(callbackQueryEventArgs.CallbackQuery.Id, "Received message " + callbackQueryEventArgs.CallbackQuery.Data);
+            Entities.Users.User user = users.GetUserById(id);
 
-            //await bot.EditMessageReplyMarkupAsync(callbackQueryEventArgs.CallbackQuery.Message.Chat.Id, callbackQueryEventArgs.CallbackQuery.Message.MessageId, null);
+            if (user == null)
+            {
+                await bot.SendTextMessageAsync(id, "Зарегистрируйтесь при помощи команды \\start.");
+                return;
+            }
 
-            //Console.WriteLine($"{callbackQueryEventArgs.CallbackQuery.From.FirstName} {callbackQueryEventArgs.CallbackQuery.From.LastName} : {callbackQueryEventArgs.CallbackQuery.Data}");
+            string data = msg.Data;
+            string[] parts = data.Split("_");
 
-            //await bot.SendPhotoAsync(chat, new InputOnlineFile(new FileStream(Environment.CurrentDirectory + "\\lessons\\test_lesson_1\\pic\\pic1.jpg", FileMode.Open)));
+            if (parts.Length < 1)
+            {
+                SendIncorrectCallback(id);
+                return;
+            }
+
+            Prefixes prefix = parts[0].ToPrefix();
+
+            if (prefix == Prefixes.Error || parts.Length != prefix.Parts())
+            {
+                SendIncorrectCallback(id);
+                return;
+            }
+
+            int[] parts_int = new int[3];
+
+            for (int i = 1; i < parts.Length; i++)
+            {
+                parts_int[i - 1] = int.Parse(parts[i]);
+            }
+
+            //if (prefix != Prefixes.LessonTestAnswer)
+            //{
+            //    await bot.EditMessageReplyMarkupAsync(callbackQueryEventArgs.CallbackQuery.Message.Chat.Id, callbackQueryEventArgs.CallbackQuery.Message.MessageId, null);
+            //}
+
+            switch (prefix)
+            {
+                case Prefixes.ToMenu:
+                    SendMainMenu(user);
+                    return;
+                case Prefixes.LessonAtMenu:
+                    SetCurrentLesson(user, parts_int[0]);
+                    SendLessonMenu(user, parts_int[0]);
+                    return;
+                case Prefixes.LessonTheory:
+                    SendTheory(user, parts_int[0], parts_int[1]);
+                    return;
+                case Prefixes.LessonTest:
+                    SendTest(user, parts_int[0], parts_int[1]);
+                    return;
+                case Prefixes.LessonTestAnswer:
+                    return;
+            }
 
             await bot.SendTextMessageAsync(id, callbackQueryEventArgs.CallbackQuery.Data);
         }
 
+        static async void SetCurrentLesson(Entities.Users.User user, int lesson)
+        {
+            if (lesson < 0)
+            {
+                await bot.SendTextMessageAsync(user.Id, "Некорректный id урока.");
+            }
 
+            if (lesson > user.ActualLesson)
+            {
+                await bot.SendTextMessageAsync(user.Id, "Этот урок пока что не доступен Вам.");
+                return;
+            }
+            else
+            {
+                user.CurrentLesson = menu.Lessons[lesson];
+
+                if (lesson == user.ActualLesson)
+                {
+                    user.CurrentLessonActualTheory = user.ActualLessonActualTheory;
+                    user.CurrentLessonActualTest = user.ActualLessonActualTest;
+                }
+                else
+                {
+                    user.CurrentLessonActualTheory = user.CurrentLesson.Theories.Count - 1;
+                    user.CurrentLessonActualTest = user.CurrentLesson.Tests.Count - 1;
+                }
+            }
+        }
+
+        static async void SendLessonMenu(Entities.Users.User user, int lesson_id)
+        {
+            Lesson lesson = user.CurrentLesson;
+
+            if (lesson == null)
+            {
+                await bot.SendTextMessageAsync(user.Id, "У Вас не выбран урок, воспользуйтесь командой \\start");
+            }
+
+            List<InlineKeyboardButton> list = new List<InlineKeyboardButton>();
+
+            for (int i = 0; i <= user.CurrentLessonActualTheory; i++)
+            {
+                InlineKeyboardButton button = new InlineKeyboardButton()
+                {
+                    Text = string.Format("Теория: {0}", lesson.Theories[i].Title),
+                    CallbackData = string.Format("lt_{0}_{1}", lesson_id, i)
+                };
+                list.Add(button);
+            }
+
+            for (int i = 0; i <= user.CurrentLessonActualTest; i++)
+            {
+                InlineKeyboardButton button = new InlineKeyboardButton()
+                {
+                    Text = string.Format("Теория: {0}", lesson.Tests[i].Title),
+                    CallbackData = string.Format("lq_{0}_{1}", lesson_id, i)
+                };
+                list.Add(button);
+            }
+
+            list.Add(new InlineKeyboardButton()
+            {
+                Text = "Назад",
+                CallbackData = "mm"
+            });
+
+            await bot.SendTextMessageAsync(user.Id, user.CurrentLesson.Title, replyMarkup: new InlineKeyboardMarkup(list.ToArray()));
+        }
+
+        static async void SendTheory(Entities.Users.User user, int lesson_id, int theory_id)
+        {
+            Theory theory = user.CurrentLesson.Theories[theory_id];
+            await bot.SendTextMessageAsync(user.Id, theory.Title);
+            await bot.SendTextMessageAsync(user.Id, theory.Text);
+            foreach (var pic in theory.Pics.GetPics())
+            {
+                await bot.SendPhotoAsync(user.Id, new InputOnlineFile(pic));
+            }
+                        
+            List<InlineKeyboardButton> list = new List<InlineKeyboardButton>();
+
+            bool last_theory_flag = false;
+
+            if (lesson_id == user.ActualLesson && theory_id == user.ActualLessonActualTheory)
+            {
+                user.ActualLessonActualTheory++;
+                user.CurrentLessonActualTheory++;
+
+                if (user.ActualLessonActualTheory == user.CurrentLesson.Theories.Count)
+                {
+                    last_theory_flag = true;
+                    user.ActualLessonActualTest = 0;
+                    user.CurrentLessonActualTest = 0;
+                }
+            }
+
+            InlineKeyboardButton next_button = new InlineKeyboardButton()
+            {
+                Text = "Далее",
+            };
+
+            if(last_theory_flag)
+            {
+                next_button.CallbackData = string.Format("lq_{0}_0", lesson_id);
+            }
+            else
+            {
+                next_button.CallbackData = string.Format("lt_{0}_{1}", lesson_id, theory_id + 1);
+            }
+
+            list.Add(next_button);
+            list.Add(new InlineKeyboardButton()
+            {
+                Text = "Далее",
+                CallbackData = string.Format("lm_{0}", lesson_id)
+            });
+
+            await bot.SendTextMessageAsync(user.Id, "Далее:", replyMarkup: new InlineKeyboardMarkup(list.ToArray()));
+        }
+
+        static async void SendTest(Entities.Users.User user, int lesson_id, int test_id)
+        {
+            //
+        }
+
+        static async void SendTestAnswer(Entities.Users.User user, int lesson_id, int test_id, int answer)
+        {
+            //
+        }
     }
 }
