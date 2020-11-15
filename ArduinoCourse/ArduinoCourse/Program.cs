@@ -83,7 +83,7 @@ namespace ArduinoCourse
         {
             string text = "Выберите курс:";
 
-            List<InlineKeyboardButton> list = new List<InlineKeyboardButton>();
+            List<InlineKeyboardButton[]> list = new List<InlineKeyboardButton[]>();
 
             for (int i = 0; i <= user.ActualLesson; i++)
             {
@@ -93,7 +93,7 @@ namespace ArduinoCourse
                     Text = lesson.Title,
                     CallbackData = string.Format("lm_{0}", i)
                 };
-                list.Add(button);
+                list.Add(new InlineKeyboardButton[] { button });
             }
 
             await bot.SendTextMessageAsync(user.Id, text, replyMarkup: new InlineKeyboardMarkup(list.ToArray()));
@@ -208,7 +208,10 @@ namespace ArduinoCourse
                 await bot.SendTextMessageAsync(user.Id, "У Вас не выбран урок, воспользуйтесь командой \\start");
             }
 
-            List<InlineKeyboardButton> list = new List<InlineKeyboardButton>();
+            await bot.SendTextMessageAsync(user.Id, string.Format("Урок №{0}", lesson_id));
+
+
+            List<InlineKeyboardButton[]> list = new List<InlineKeyboardButton[]>();
 
             for (int i = 0; i <= user.CurrentLessonActualTheory && i < lesson.Theories.Count; i++)
             {
@@ -217,7 +220,7 @@ namespace ArduinoCourse
                     Text = string.Format("Теория: {0}", lesson.Theories[i].Title),
                     CallbackData = string.Format("lt_{0}_{1}", lesson_id, i)
                 };
-                list.Add(button);
+                list.Add(new InlineKeyboardButton[] { button });
             }
 
             for (int i = 0; i <= user.CurrentLessonActualTest && i < lesson.Tests.Count; i++)
@@ -227,29 +230,33 @@ namespace ArduinoCourse
                     Text = string.Format("Теория: {0}", lesson.Tests[i].Title),
                     CallbackData = string.Format("lq_{0}_{1}", lesson_id, i)
                 };
-                list.Add(button);
+                list.Add(new InlineKeyboardButton[] { button });
             }
 
-            list.Add(new InlineKeyboardButton()
+            list.Add(new InlineKeyboardButton[]
             {
-                Text = "Назад",
-                CallbackData = "mm"
+                new InlineKeyboardButton()
+                {
+                    Text = "Назад",
+                    CallbackData = "mm"
+                }
             });
 
-            await bot.SendTextMessageAsync(user.Id, string.Format("Урок №{0}\n{1}", lesson_id, user.CurrentLesson.Title), replyMarkup: new InlineKeyboardMarkup(list.ToArray()));
+            await bot.SendTextMessageAsync(user.Id, user.CurrentLesson.Title, replyMarkup: new InlineKeyboardMarkup(list.ToArray()));
         }
 
         static async void SendTheory(Entities.Users.User user, int lesson_id, int theory_id)
         {
             Theory theory = user.CurrentLesson.Theories[theory_id];
+            await bot.SendTextMessageAsync(user.Id, string.Format("Теория №{0}", theory_id));
             await bot.SendTextMessageAsync(user.Id, theory.Title);
             await bot.SendTextMessageAsync(user.Id, theory.Text);
             foreach (var pic in theory.Pics.GetPics())
             {
                 await bot.SendPhotoAsync(user.Id, new InputOnlineFile(pic));
             }
-                        
-            List<InlineKeyboardButton> list = new List<InlineKeyboardButton>();
+
+            List<InlineKeyboardButton[]> list = new List<InlineKeyboardButton[]>();
 
             bool last_theory_flag = false;
 
@@ -271,7 +278,7 @@ namespace ArduinoCourse
                 Text = "Далее",
             };
 
-            if(last_theory_flag)
+            if (last_theory_flag)
             {
                 next_button.CallbackData = string.Format("lq_{0}_0", lesson_id);
             }
@@ -280,11 +287,14 @@ namespace ArduinoCourse
                 next_button.CallbackData = string.Format("lt_{0}_{1}", lesson_id, theory_id + 1);
             }
 
-            list.Add(next_button);
-            list.Add(new InlineKeyboardButton()
+            list.Add(new InlineKeyboardButton[] { next_button });
+            list.Add(new InlineKeyboardButton[]
             {
-                Text = "Назад",
-                CallbackData = string.Format("lm_{0}", lesson_id)
+                new InlineKeyboardButton()
+                {
+                    Text = "Назад",
+                    CallbackData = string.Format("lm_{0}", lesson_id)
+                }
             });
 
             await bot.SendTextMessageAsync(user.Id, "Далее:", replyMarkup: new InlineKeyboardMarkup(list.ToArray()));
@@ -293,6 +303,7 @@ namespace ArduinoCourse
         static async void SendTest(Entities.Users.User user, int lesson_id, int test_id)
         {
             Test test = user.CurrentLesson.Tests[test_id];
+            await bot.SendTextMessageAsync(user.Id, string.Format("Тест №{0}", test_id));
             await bot.SendTextMessageAsync(user.Id, test.Title);
             await bot.SendTextMessageAsync(user.Id, test.Text);
             foreach (var pic in test.Pics.GetPics())
@@ -300,21 +311,27 @@ namespace ArduinoCourse
                 await bot.SendPhotoAsync(user.Id, new InputOnlineFile(pic));
             }
 
-            List<InlineKeyboardButton> list = new List<InlineKeyboardButton>();
+            List<InlineKeyboardButton[]> list = new List<InlineKeyboardButton[]>();
 
-            for(int i = 0; i < test.Variants.Count; i++)
+            for (int i = 0; i < test.Variants.Count; i++)
             {
-                list.Add(new InlineKeyboardButton()
+                list.Add(new InlineKeyboardButton[]
                 {
-                    Text = test.Variants[i],
-                    CallbackData = string.Format("la_{0}_{1}_{2}", lesson_id, test_id, i)
+                    new InlineKeyboardButton()
+                    {
+                        Text = test.Variants[i],
+                        CallbackData = string.Format("la_{0}_{1}_{2}", lesson_id, test_id, i)
+                    }
                 });
             }
 
-            list.Add(new InlineKeyboardButton()
+            list.Add(new InlineKeyboardButton[]
             {
-                Text = "Назад",
-                CallbackData = string.Format("lm_{0}", lesson_id)
+                new InlineKeyboardButton()
+                {
+                    Text = "Назад",
+                    CallbackData = string.Format("lm_{0}", lesson_id)
+                }
             });
 
             await bot.SendTextMessageAsync(user.Id, "Ответ:", replyMarkup: new InlineKeyboardMarkup(list.ToArray()));
@@ -322,7 +339,7 @@ namespace ArduinoCourse
 
         static async void SendTestAnswer(Entities.Users.User user, int lesson_id, int test_id, int answer)
         {
-            if(user.CurrentLesson.Tests[test_id].Answer != answer)
+            if (user.CurrentLesson.Tests[test_id].Answer != answer)
             {
                 await bot.SendTextMessageAsync(user.Id, "Не верно!");
                 return;
