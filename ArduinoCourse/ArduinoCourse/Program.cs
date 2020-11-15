@@ -16,6 +16,9 @@ namespace ArduinoCourse
 {
     class Program
     {
+        static string MenuPath;
+        static string UsersPath;
+
         static MainMenu menu;
         static UserList users;
         static TelegramBotClient bot;
@@ -23,8 +26,11 @@ namespace ArduinoCourse
 
         static void Main(string[] args)
         {
-            menu = (Environment.CurrentDirectory + "\\lessons\\main_menu.xml").ToMainMenu();
-            users = (Environment.CurrentDirectory + "\\lessons\\users.xml").ToUserList();
+            MenuPath = (Environment.CurrentDirectory + "\\lessons\\main_menu.xml");
+            UsersPath = (Environment.CurrentDirectory + "\\lessons\\users.xml");
+
+            menu = MenuPath.ToMainMenu();
+            users = UsersPath.ToUserList();
 
             bot = new TelegramBotClient(token);
 
@@ -60,9 +66,17 @@ namespace ArduinoCourse
             Message msg = e.Message;
             long id = msg.From.Id;
             Log(msg);
+
+            if(msg.Text == "/save")
+            {
+                users.ToFile(UsersPath);
+                await bot.SendTextMessageAsync(id, "Список пользователей сохранен!");
+                return;
+            }
+
             Entities.Users.User user = users.GetUserById(msg.From.Id);
 
-            if (msg.Text == "\\start")
+            if (msg.Text == "/start")
             {
                 if (user == null)
                 {
@@ -76,7 +90,7 @@ namespace ArduinoCourse
                 return;
             }
 
-            await bot.SendTextMessageAsync(id, "Используйте команду \\start");
+            await bot.SendTextMessageAsync(id, "Используйте команду /start");
         }
 
         static async void SendMainMenu(Entities.Users.User user)
@@ -227,7 +241,7 @@ namespace ArduinoCourse
             {
                 InlineKeyboardButton button = new InlineKeyboardButton()
                 {
-                    Text = string.Format("Теория: {0}", lesson.Tests[i].Title),
+                    Text = string.Format("Вопрос: {0}", lesson.Tests[i].Title),
                     CallbackData = string.Format("lq_{0}_{1}", lesson_id, i)
                 };
                 list.Add(new InlineKeyboardButton[] { button });
