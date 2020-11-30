@@ -222,7 +222,7 @@ namespace ArduinoCourse
                 await bot.SendTextMessageAsync(user.Id, "У Вас не выбран урок, воспользуйтесь командой \\start");
             }
 
-            await bot.SendTextMessageAsync(user.Id, string.Format("Урок №{0}", lesson_id));
+            //await bot.SendTextMessageAsync(user.Id, string.Format("Урок №{0}", lesson_id));
 
 
             List<InlineKeyboardButton[]> list = new List<InlineKeyboardButton[]>();
