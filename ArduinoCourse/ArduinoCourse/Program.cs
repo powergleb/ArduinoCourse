@@ -220,6 +220,7 @@ namespace ArduinoCourse
             if (lesson == null)
             {
                 await bot.SendTextMessageAsync(user.Id, "У Вас не выбран урок, воспользуйтесь командой \\start");
+                return;
             }
 
             //await bot.SendTextMessageAsync(user.Id, string.Format("Урок №{0}", lesson_id));
@@ -261,7 +262,14 @@ namespace ArduinoCourse
 
         static async void SendTheory(Entities.Users.User user, int lesson_id, int theory_id)
         {
-            Theory theory = user.CurrentLesson.Theories[theory_id];
+            Lesson lesson = user.CurrentLesson;
+            if (lesson == null)
+            {
+                await bot.SendTextMessageAsync(user.Id, "У Вас не выбран урок, воспользуйтесь командой \\start");
+                return;
+            }
+
+            Theory theory = lesson.Theories[theory_id];
             await bot.SendTextMessageAsync(user.Id, string.Format("Теория №{0}", theory_id));
             await bot.SendTextMessageAsync(user.Id, theory.Title);
             await bot.SendTextMessageAsync(user.Id, theory.Text);
@@ -316,7 +324,14 @@ namespace ArduinoCourse
 
         static async void SendTest(Entities.Users.User user, int lesson_id, int test_id)
         {
-            Test test = user.CurrentLesson.Tests[test_id];
+            Lesson lesson = user.CurrentLesson;
+            if (lesson == null)
+            {
+                await bot.SendTextMessageAsync(user.Id, "У Вас не выбран урок, воспользуйтесь командой \\start");
+                return;
+            }
+
+            Test test = lesson.Tests[test_id];
             await bot.SendTextMessageAsync(user.Id, string.Format("Тест №{0}", test_id));
             await bot.SendTextMessageAsync(user.Id, test.Title);
             await bot.SendTextMessageAsync(user.Id, test.Text);
@@ -353,7 +368,14 @@ namespace ArduinoCourse
 
         static async void SendTestAnswer(Entities.Users.User user, int lesson_id, int test_id, int answer)
         {
-            if (user.CurrentLesson.Tests[test_id].Answer != answer)
+            Lesson lesson = user.CurrentLesson;
+            if (lesson == null)
+            {
+                await bot.SendTextMessageAsync(user.Id, "У Вас не выбран урок, воспользуйтесь командой \\start");
+                return;
+            }
+
+            if (lesson.Tests[test_id].Answer != answer)
             {
                 await bot.SendTextMessageAsync(user.Id, "Не верно!");
                 return;
@@ -361,7 +383,7 @@ namespace ArduinoCourse
 
             await bot.SendTextMessageAsync(user.Id, "Верно!");
 
-            if (test_id + 1 < user.CurrentLesson.Tests.Count)
+            if (test_id + 1 < lesson.Tests.Count)
             {
                 if (lesson_id == user.ActualLesson)
                 {

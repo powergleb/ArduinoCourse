@@ -129,15 +129,15 @@ setup() И loop().
     </Theory>
     <Theory>
       <Title>3.6.2) Листинг 3.1. Пример конфигурации</Title>
-      <Text>const int LED=9; // Константа - номер контакта светодиода
+      <Text>const int LED = 9; // Константа - номер контакта светодиода
 void setup()
 {
-pinMode (LED, OUTPUT); // Конфигурируем контакт светодиода как выход
-digitalWrite(LED, HIGH); // Устанавливаем значение HIGH на выходе
+	pinMode (LED, OUTPUT); // Конфигурируем контакт светодиода как выход
+	digitalWrite(LED, HIGH); // Устанавливаем значение HIGH на выходе
 }
 void loop()
 {
-// В цикле ничего не выполняем
+	// В цикле ничего не выполняем
 }</Text>
       <Pics />
     </Theory>
@@ -265,7 +265,7 @@ void loop()
       <Pics />
     </Theory>
     <Theory>
-      <Title>3.8.4) Описание работы ШИМ</Title>
+      <Title>3.8.4) Тонкости работы ШИМ</Title>
       <Text>Чтобы понять все тонкости, разберемся, как на самом деле работает ШИМ.
 Рассмотрим графики, представленные на рисунке.
 ШИМ представляет собой изменение скважности ( отношения периода к длительности импульса) прямоугольной последовательности импульсов.
@@ -285,6 +285,26 @@ void loop()
       <Pics>
         <Pic>\lessons\lesson_3\pic\pic3.4.jpg</Pic>
       </Pics>
+    </Theory>
+    <Theory>
+      <Title>info11</Title>
+      <Text>test_text_11</Text>
+      <Pics />
+    </Theory>
+    <Theory>
+      <Title>info11</Title>
+      <Text>test_text_11</Text>
+      <Pics />
+    </Theory>
+    <Theory>
+      <Title>info11</Title>
+      <Text>test_text_11</Text>
+      <Pics />
+    </Theory>
+    <Theory>
+      <Title>info11</Title>
+      <Text>test_text_11</Text>
+      <Pics />
     </Theory>
     <Theory>
       <Title>info11</Title>
