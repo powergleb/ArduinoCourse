@@ -1,0 +1,45 @@
+<Lesson>
+  <Title>test_lesson_2</Title>
+  <Theories>
+    <Theory>
+      <Title>info21</Title>
+      <Text>test_text_21</Text>
+      <Pics />
+    </Theory>
+    <Theory>
+      <Title>info21</Title>
+      <Text>test_text_21</Text>
+      <Pics>
+        <Pic>\lessons\test_lesson_1\pic\pic1.jpg</Pic>
+      </Pics>
+    </Theory>
+  </Theories>
+  <Tests>
+    <Test>
+      <Title>test21</Title>
+      <Pics />
+      <Text>test_test_21</Text>
+      <Variants>
+        <Variant>False1</Variant>
+        <Variant>False2</Variant>
+        <Variant>True</Variant>
+        <Variant>False3</Variant>
+      </Variants>
+      <Answer>2</Answer>
+    </Test>
+    <Test>
+      <Title>test22</Title>
+      <Pics>
+        <Pic>\lessons\test_lesson_1\pic\pic1.jpg</Pic>
+      </Pics>
+      <Text>test_test_22</Text>
+      <Variants>
+        <Variant>False1</Variant>
+        <Variant>False2</Variant>
+        <Variant>True</Variant>
+        <Variant>False3</Variant>
+      </Variants>
+      <Answer>2</Answer>
+    </Test>
+  </Tests>
+</Lesson>
