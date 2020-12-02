@@ -1,4 +1,9 @@
 <Menu>
   <Lesson>\lessons\lesson_1\lesson_1.xml</Lesson>
   <Lesson>\lessons\lesson_2\lesson_2.xml</Lesson>
+  <Lesson>\lessons\lesson_3\lesson_3.xml</Lesson>
+  <Lesson>\lessons\lesson_4\lesson_4.xml</Lesson>
+  <Lesson>\lessons\lesson_5\lesson_5.xml</Lesson>
+  <Lesson>\lessons\lesson_6\lesson_6.xml</Lesson>
+  <Lesson>\lessons\lesson_7\lesson_7.xml</Lesson>
 </Menu>

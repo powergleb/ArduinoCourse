@@ -270,7 +270,7 @@ namespace ArduinoCourse
             }
 
             Theory theory = lesson.Theories[theory_id];
-            await bot.SendTextMessageAsync(user.Id, string.Format("Теория №{0}", theory_id));
+            //await bot.SendTextMessageAsync(user.Id, string.Format("Теория №{0}", theory_id));
             await bot.SendTextMessageAsync(user.Id, theory.Title);
             await bot.SendTextMessageAsync(user.Id, theory.Text);
             foreach (var pic in theory.Pics.GetPics())
@@ -332,7 +332,7 @@ namespace ArduinoCourse
             }
 
             Test test = lesson.Tests[test_id];
-            await bot.SendTextMessageAsync(user.Id, string.Format("Тест №{0}", test_id));
+            //await bot.SendTextMessageAsync(user.Id, string.Format("Тест №{0}", test_id));
             await bot.SendTextMessageAsync(user.Id, test.Title);
             await bot.SendTextMessageAsync(user.Id, test.Text);
             foreach (var pic in test.Pics.GetPics())

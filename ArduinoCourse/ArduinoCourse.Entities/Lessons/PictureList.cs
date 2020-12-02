@@ -8,15 +8,14 @@ namespace ArduinoCourse.Entities.Lessons
     {
         public List<string> Pics = new List<string>();
 
-        public IEnumerable<FileStream> GetPics()
+        public IEnumerable<Stream> GetPics()
         {
             foreach (string s in Pics)
             {
                 string path = string.Format("{0}{1}", Environment.CurrentDirectory, s);
-                using (FileStream stream = new FileStream(path, FileMode.Open))
-                {
-                    yield return stream;
-                }
+                byte[] buffer = File.ReadAllBytes(path);
+                MemoryStream stream = new MemoryStream(buffer);
+                yield return stream;
             }
         }
     }
