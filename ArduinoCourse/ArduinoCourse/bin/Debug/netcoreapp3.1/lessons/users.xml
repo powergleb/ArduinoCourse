@@ -5,4 +5,10 @@
     <ActualLessonActualTheory>4</ActualLessonActualTheory>
     <ActualLessonActualTest>-1</ActualLessonActualTest>
   </User>
+  <User>
+    <Id>986895039</Id>
+    <ActualLesson>0</ActualLesson>
+    <ActualLessonActualTheory>7</ActualLessonActualTheory>
+    <ActualLessonActualTest>0</ActualLessonActualTest>
+  </User>
 </Users>
