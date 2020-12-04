@@ -86,18 +86,44 @@
   </Theories>
   <Tests>
     <Test>
-      <Title>1.1) Микроконтроллер</Title>
-       <Pics>
+      <Title>1.1)Микроконтроллер</Title>
+	  <Pics>
         <Pic>\lessons\lesson_1\pic\pic1.1.jpg</Pic>
       </Pics>
       <Text>Какой микроконтроллер установлен на платах Arduino?</Text>
       <Variants>
-        <Variant>False1</Variant>
-        <Variant>False2</Variant>
-        <Variant>True</Variant>
-        <Variant>False3</Variant>
+        <Variant>Intel</Variant>
+        <Variant>Esp</Variant>
+        <Variant>Atmel</Variant>
+        <Variant>Amd</Variant>
       </Variants>
       <Answer>2</Answer>
+    </Test>
+	<Test>
+      <Title>1.2)Интерфейсы программирования</Title>
+		<Pics>
+      </Pics>
+      <Text>Какая самая важная особенность Arduino при ее прошивке?</Text>
+      <Variants>
+        <Variant>загрузка пользовательской программы на плату Arduino по последовательному порту USART</Variant>
+        <Variant>все порты выведены на штырьковые контакты</Variant>
+        <Variant>непосредственное программирование через USB-порт, без дополнительного программатора</Variant>
+        <Variant>все контакты могут служить цифровыми входами и выходами. </Variant>
+      </Variants>
+      <Answer>2</Answer>
+    </Test>
+	<Test>
+      <Title>1.3)Источники питания</Title>
+	  <Pics>
+      </Pics>
+      <Text>Какое напряжение необходимо Arduino для автономной работы?</Text>
+      <Variants>
+        <Variant>схема способна работать от внешнего источника от 6 до 20 В (рекомендуется напряжение 7-12 В)</Variant>
+        <Variant>схема способна работать от внешнего источника от 5 до 10 В (рекомендуется напряжение 13-15 В)</Variant>
+        <Variant>схема способна работать от внешнего источника от 0 до 2 В (рекомендуется напряжение 12-20 В)</Variant>
+        <Variant>схема способна работать от внешнего источника от 0 до 3 В (рекомендуется напряжение 5 В) </Variant>
+      </Variants>
+      <Answer>0</Answer>
     </Test>
   </Tests>
 </Lesson>

@@ -109,16 +109,64 @@ Download the Arduino Software
   </Theories>
   <Tests>
     <Test>
-      <Title>2.1) Test</Title>
+      <Title>2.2)Анализ программы Blink</Title>
+	  <Pics />
+      <Text>2.1)Выберите подходящее описание функции setup</Text>
+      <Variants>
+        <Variant>одна из двух функций, которые должны быть включены в каждую программу Arduino, код в теле функции setup() выполняется один раз в начале программы.</Variant>
+        <Variant>устанавливает состояние выходного контакта: 5 или 0 В. </Variant>
+        <Variant>это оператор цикла</Variant>
+        <Variant>останавливает выполнение программы на определенный интервал времени.</Variant>
+      </Variants>
+      <Answer>0</Answer>
+    </Test>
+    <Test>
+      <Title>2.2)Анализ программы Blink</Title>
+	  <Pics />
+      <Text>2.2)Выберите подходящее описание функции setup</Text>
+      <Variants>
+        <Variant>одна из двух функций, которые должны быть включены в каждую программу Arduino, код в теле функции setup() выполняется один раз в начале программы.</Variant>
+        <Variant>устанавливает состояние выходного контакта: 5 или 0 В. </Variant>
+        <Variant>это оператор цикла</Variant>
+        <Variant>останавливает выполнение программы на определенный интервал времени.</Variant>
+      </Variants>
+      <Answer>0</Answer>
+    </Test>
+	<Test>
+      <Title>2.2)Анализ программы Blink2.</Title>
+	  <Pics />
+      <Text>3)Выберите подходящее описание функции loop</Text>
+      <Variants>
+        <Variant>останавливает выполнение программы на определенный интервал времени</Variant>
+        <Variant>устанавливает состояние выходного контакта: 5 или 0 В</Variant>
+        <Variant>это оператор цикла</Variant>
+        <Variant>останавливает выполнение программы на определенный интервал времени</Variant>
+      </Variants>
+      <Answer>2</Answer>
+    </Test>
+	<Test>
+      <Title>2.4) Выберите подходящее описание функции digitalWrite</Title>
 	  <Pics />
       <Text>Test</Text>
       <Variants>
-        <Variant>False1</Variant>
-        <Variant>False2</Variant>
-        <Variant>True</Variant>
-        <Variant>False3</Variant>
+        <Variant>останавливает выполнение программы на определенный интервал времени</Variant>
+        <Variant>устанавливает состояние выходного контакта: 5 или 0 В</Variant>
+        <Variant>это оператор цикла</Variant>
+        <Variant>останавливает выполнение программы на определенный интервал времени</Variant>
       </Variants>
-      <Answer>2</Answer>
+      <Answer>1</Answer>
+    </Test>
+	<Test>
+      <Title>2.5) Выберите подходящее описание функции delay</Title>
+	  <Pics />
+      <Text>Test</Text>
+      <Variants>
+        <Variant>останавливает выполнение программы на определенный интервал времени</Variant>
+        <Variant>устанавливает состояние выходного контакта: 5 или 0 В</Variant>
+        <Variant>выводит номер цифрового контакта, к которому подключен светодиод на плате Arduino</Variant>
+        <Variant>останавливает выполнение программы на определенный интервал времени</Variant>
+      </Variants>
+      <Answer>3</Answer>
     </Test>
   </Tests>
 </Lesson>
