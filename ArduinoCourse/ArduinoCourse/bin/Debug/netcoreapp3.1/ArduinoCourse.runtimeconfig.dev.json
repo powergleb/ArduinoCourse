@@ -1,9 +1,8 @@
 {
   "runtimeOptions": {
     "additionalProbingPaths": [
-      "C:\\Users\\groka\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\groka\\.nuget\\packages",
-      "C:\\Microsoft\\Xamarin\\NuGet"
+      "C:\\Users\\DarkLord\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\DarkLord\\.nuget\\packages"
     ]
   }
 }
