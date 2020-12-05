@@ -1,5 +1,5 @@
 <Lesson>
-  <Title>Урок 6. Цифровые контакты ввода-вывода шиотно-импульсная модуляция</Title>
+  <Title>Урок 6. Cтягивающий и подтягивающий резисторы</Title>
   <Theories>
     <Theory>
       <Title>6.1) Список деталей</Title>
@@ -55,8 +55,8 @@
 В соответствии с законом Ома ток всегда будет идти по пути наименьшего сопротивления.
 Большая часть тока будет протекать через замкнутую кнопку и на входе установится уровень HIGH.</Text>
       <Pics>
-        <Pic>\lessons\lesson_3\pic\pic3.1.jpg</Pic>
-        <Pic>\lessons\lesson_3\pic\pic3.5.jpg</Pic>
+        <Pic>\lessons\lesson_3\pic\pic6.1.jpg</Pic>
+        <Pic>\lessons\lesson_3\pic\pic6.5.jpg</Pic>
       </Pics>
     </Theory>
     <Theory>
@@ -122,16 +122,43 @@ void loop()
   </Theories>
   <Tests>
     <Test>
-      <Title>test</Title>
+      <Title>Анализ листинга</Title>
       <Pics />
-      <Text>test</Text>
+      <Text>6.1) что делает функция digitalRead?</Text>
       <Variants>
-        <Variant>False1</Variant>
-        <Variant>False2</Variant>
-        <Variant>True</Variant>
-        <Variant>False3</Variant>
+        <Variant>задает значение сигнала на выходе</Variant>
+        <Variant>считывает значение сигнала на выходе</Variant>
+        <Variant>считывает значение сигнала на входе</Variant>
+        <Variant>считывает напряжение на входе</Variant>
       </Variants>
       <Answer>2</Answer>
     </Test>
+	
+	<Test>
+      <Title>Стягивающий резистор</Title>
+      <Pics />
+      <Text>6.1)что такое стягивающий резистор</Text>
+      <Variants>
+        <Variant>резистор соединяющий нужный нам участок цепи с плюсом (+).</Variant>
+        <Variant>резистор соединяющий нужный нам участок цепи с нулём (землёй, GND).</Variant>
+        <Variant>резистор уменьшающий напряжение на участке цепи для измерения.</Variant>
+        <Variant>резистор уменьшающий напряжение на участке цепи</Variant>
+      </Variants>
+      <Answer>1</Answer>
+    </Test>
+	
+	<Test>
+      <Title>Стягивающий резистор</Title>
+      <Pics />
+      <Text>6.1)что такое подтягивающий резистор</Text>
+      <Variants>
+        <Variant>резистор соединяющий нужный нам участок цепи с плюсом (+).</Variant>
+        <Variant>резистор соединяющий нужный нам участок цепи с нулём (землёй, GND).</Variant>
+        <Variant>считывает значение сигнала на входе</Variant>
+        <Variant>считывает напряжение на входе</Variant>
+      </Variants>
+      <Answer>0</Answer>
+    </Test>
+	
   </Tests>
 </Lesson>
