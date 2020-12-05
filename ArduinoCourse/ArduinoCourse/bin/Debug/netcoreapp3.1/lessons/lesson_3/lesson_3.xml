@@ -184,12 +184,12 @@ void loop()
       <Pics />
       <Text>test</Text>
       <Variants>
-        <Variant>55 ОМ</Variant>
-        <Variant>65 А</Variant>
+        <Variant>55 А</Variant>
+        <Variant>65 ОМ</Variant>
         <Variant>175 А</Variant>
-        <Variant>11 А</Variant>
+        <Variant>55 ОМ</Variant>
       </Variants>
-      <Answer>1</Answer>
+      <Answer>3</Answer>
     </Test>
 	 <Test>
       <Title>3.3)Какая команда конфигурирует контакт светодиода как выход </Title>
