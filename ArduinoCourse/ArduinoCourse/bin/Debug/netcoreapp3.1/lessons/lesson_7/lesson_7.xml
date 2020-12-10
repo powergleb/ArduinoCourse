@@ -153,39 +153,39 @@ void loop()
   </Theories>
   <Tests>
     <Test>
-      <Title>Проблема "дребезга" кнопок</Title>
+      <Title>7.1)Что представляет из себя дребезг контактов</Title>
       <Pics />
-      <Text>что представляет из себя дребезг контактов</Text>
+      <Text>1 - Безразмерная величина, равная отношению мощности полезного сигнала к мощности шума.
+2 - Явление, происходящее в электромеханических коммутационных устройствах и аппаратах, длящееся некоторое время до замыкания электрических контактов.
+3 - Явление, происходящее в электромеханических коммутационных устройствах и аппаратах, длящееся некоторое время после замыкания электрических контактов.
+4 - Явление, при котором тела приобретают свойства притягивать другие тела.</Text>
       <Variants>
-        <Variant>безразмерная величина, равная отношению мощности полезного сигнала к мощности шума</Variant>
-        <Variant>явление, происходящее в электромеханических коммутационных устройствах и аппаратах, длящееся некоторое время до замыкания электрических контактов</Variant>
-        <Variant>явление, происходящее в электромеханических коммутационных устройствах и аппаратах, длящееся некоторое время после замыкания электрических контактов</Variant>
-        <Variant>явление, при котором тела приобретают свойства притягивать другие тела</Variant>
+		<Variant>1</Variant>
+        <Variant>2</Variant>
+        <Variant>3</Variant>
+        <Variant>4</Variant>
       </Variants>
       <Answer>2</Answer>
     </Test>
 	 <Test>
-      <Title>Анализ листинга</Title>
+      <Title>7.2) Анализ листинга</Title>
       <Pics />
-      <Text>const int LED = 9; // Контакт 9 для подключения светодиода
-const int BUTTON = 2; // Контакт 2 для подключения кнопки
-boolean lastButton = LOW;// Переменная для сохранения предыдущего
-// состояния кнопки
-boolean currentButton = LOW;// Переменная для сохранения текущего
-// состояния кнопки
-boolean ledOn = false;// Текущее состояние светодиода
-//(включен/выключен)
+      <Text>const int LED = 9; 
+const int BUTTON = 2; 
+boolean lastButton = LOW;
+boolean currentButton = LOW;
+boolean ledOn = false;
 void setup()
 {
- pinMode (LED, OUTPUT);// Сконфигурировать контакт светодиода как выход
- pinMode (BUTTON, INPUT);//Сконфигурировать контакт кнопки как вход
+ pinMode (LED, OUTPUT);
+ pinMode (BUTTON, INPUT);
 }
 boolean debounce(boolean last)
 {
 	boolean current = digitalRead(BUTTON);
 	if (last != current)
 	{
-		delay(5);// Ждем 5 мс
+		delay(5);
 		current = digitalRead(BUTTON);
 		return current;
 	}
@@ -193,14 +193,14 @@ boolean debounce(boolean last)
 void loop()
 {
 	currentButton = debounce(lastButton);
-	if (lastButton == LOW &amp;&amp; currentButton == HIGH) // Если нажатие
+	if (lastButton == LOW &amp;&amp; currentButton == HIGH) 
 	{
-		ledOn = !ledOn;// Инвертировать значение состояния светодиода
+		ledOn = !ledOn;
 	}
 	lastButton = currentButton;
-	digitalWrite(LED, ledOn);// Изменить статус состояния светодиода
+	digitalWrite(LED, ledOn);
 }
-в какой функции подавляется дребезг</Text>
+в какой функции подавляется дребезг?</Text>
       <Variants>
         <Variant>loop</Variant>
         <Variant>debounce</Variant>

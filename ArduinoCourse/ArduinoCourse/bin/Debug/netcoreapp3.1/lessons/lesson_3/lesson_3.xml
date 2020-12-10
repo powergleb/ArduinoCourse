@@ -172,15 +172,15 @@ void loop()
       <Pics />
       <Text>test</Text>
       <Variants>
-        <Variant>14 А</Variant>
-        <Variant>12 А</Variant>
-        <Variant>10 А</Variant>
-        <Variant>11 А</Variant>
+        <Variant>14 А.</Variant>
+        <Variant>12 А.</Variant>
+        <Variant>10 А.</Variant>
+        <Variant>11 А.</Variant>
       </Variants>
       <Answer>2</Answer>
     </Test>
 	 <Test>
-      <Title>3.2) Определите сопротивление проводника, если при напряжении 110 В сила тока в нем 2 А</Title>
+      <Title>3.2) Определите сопротивление проводника, если при напряжении 110 В сила тока в нем 2 А?</Title>
       <Pics />
       <Text>test</Text>
       <Variants>
@@ -192,12 +192,12 @@ void loop()
       <Answer>3</Answer>
     </Test>
 	 <Test>
-      <Title>3.3)Какая команда конфигурирует контакт светодиода как выход </Title>
+      <Title>3.3)Какая команда конфигурирует контакт светодиода как выход. </Title>
       <Pics />
       <Text>test</Text>
       <Variants>
-        <Variant>pinMode (LED, OUTPUT);</Variant>
-        <Variant>pinMode (LED, Input);</Variant>
+        <Variant>pinMode (LED, OUTPUT)</Variant>
+        <Variant>pinMode (LED, Input)</Variant>
         <Variant>digitalWrite(LED, HIGH)</Variant>
         <Variant>digitalWrite(LED, Low)</Variant>
       </Variants>
