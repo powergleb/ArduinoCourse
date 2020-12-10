@@ -122,9 +122,9 @@ void loop()
   </Theories>
   <Tests>
     <Test>
-      <Title>6.1)Что делает функция digitalRead?</Title>
+      <Title>6.1)Функция digitalRead</Title>
       <Pics />
-      <Text></Text>
+      <Text>Что делает функция digitalRead?</Text>
       <Variants>
         <Variant>задает значение сигнала на выходе</Variant>
         <Variant>считывает значение сигнала на выходе</Variant>
@@ -149,7 +149,7 @@ void loop()
       </Variants>
       <Answer>1</Answer>
     </Test>
-	<Test>
+	  <Test>
       <Title>6.3)Что такое подтягивающий резистор?</Title>
       <Pics />
       <Text>1 - Резистор соединяющий нужный нам участок цепи с плюсом (+).
